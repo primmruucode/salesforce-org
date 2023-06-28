@@ -53,8 +53,13 @@ jobs:
         run: | 
           sfdx force:auth:jwt:grant --clientid=${{ secrets.SALESFORCE_CONSUMER_KEY }} --jwtkeyfile=server.key --username=${{ secrets.SALESFORCE_USERNAME }} --setdefaultdevhubusername --setalias devjwt
   
-  
-    
+      - name: 'Create scratch org'
+        run: sf org create scratch -f config/project-scratch-def.json -a scratch-org -d -y 1
+
+      # Deploy source to scratch org
+      - name: 'Push source to scratch org'
+        run: sf project deploy start
+
       - name: 'Deploy the entire branch to Integration org'
         run: |
           sfdx force:source:deploy -p force-app --testlevel RunLocalTests --json -u ${{ secrets.SALESFORCE_USERNAME }} --ignorewarnings
