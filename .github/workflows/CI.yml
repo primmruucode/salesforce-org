@@ -54,10 +54,10 @@ jobs:
           sfdx force:auth:jwt:grant --clientid=${{ secrets.SALESFORCE_CONSUMER_KEY }} --jwtkeyfile=server.key --username=${{ secrets.SALESFORCE_USERNAME }} --setdefaultdevhubusername --setalias devjwt
           
       - name: 'Deploy the entire branch to Integration org'
-        run: sfdx force:source:deploy -p force-app --testlevel RunLocalTests --json
+        run: sfdx force:source:deploy -p force-app --testlevel RunLocalTests --json -u ${{ secrets.SALESFORCE_USERNAME }}
 
       - name: 'Deploy destructive changes (if any) to Integration org'
-        run: sfdx force:mdapi:deploy -d "changed-sources/destructiveChanges" --checkonly --ignorewarnings 
+        run: sfdx force:mdapi:deploy -d "changed-sources/destructiveChanges" --checkonly --ignorewarnings -u ${{ secrets.SALESFORCE_USERNAME }}
 
 # force:source:deploy,--manifest,manifest/package.xml,--targetusername,DevHub_Instance,--wait,30,--json,--ignorewarnings,--testlevel,RunLocalTests
       - name: Deploy to Sandbox
