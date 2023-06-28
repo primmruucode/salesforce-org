@@ -16,12 +16,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
         
+      #- name: Install Salesforce CLI
+       # run: |
+        #  wget https://developer.salesforce.com/media/salesforce-cli/sfdx-cli/channels/stable/sfdx-cli-linux-x64.tar.xz
+         #mkdir sfdx-cli
+          #tar xJf sfdx-cli-linux-x64.tar.xz -C sfdx-cli --strip-components 1
+          #sudo ./sfdx-cli/install
+          
       - name: Install Salesforce CLI
-        run: |
-          wget https://developer.salesforce.com/media/salesforce-cli/sfdx-cli/channels/stable/sfdx-cli-linux-x64.tar.xz
-          mkdir sfdx-cli
-          tar xJf sfdx-cli-linux-x64.tar.xz -C sfdx-cli --strip-components 1
-          sudo ./sfdx-cli/install
+        uses: sfdx/setup-sfdx@v1
 # sfdx force:source:deploy --manifest=manifest/package.xml --testlevel=RunLocalTests -u kourim2570-v2az@force.com
       - name: 'Installing sfdx git delta'
         run: | 
